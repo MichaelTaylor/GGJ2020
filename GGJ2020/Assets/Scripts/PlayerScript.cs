@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    [Header("Basic Variables")]
+    [Range(0f, 10f)]
+    [SerializeField]
+    private float _speed;
+    private bool _isDead;
+
     [Header("Health Variables")]
     [Range(0f, 30f)]
     [SerializeField]
@@ -21,16 +27,11 @@ public class PlayerScript : MonoBehaviour
     private bool _restoringHealth;
     private float _targetHealthValue;
 
-    [Header("Basic Variables")]
-    [Range(0f, 10f)]
-    [SerializeField]
-    private float _speed;
-
-    private bool _isDead;
-
+    //Components
     private SpriteRenderer _spriteRend;
     private Rigidbody2D _rb2D;
     private Animator _anim;
+    private Renderer _rend;
 
     private void Start()
     {
@@ -40,6 +41,7 @@ public class PlayerScript : MonoBehaviour
         _spriteRend = GetComponent<SpriteRenderer>();
         _rb2D = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        _rend = GetComponent<Renderer>();
     }
 
 
@@ -118,11 +120,16 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        float fadeValue = ((_health / _maxHealth)) - 1f;
+        float fadeValue = Mathf.Abs(((_health / _maxHealth)) - 1f);
+        
+        if (_rend != null)
+        {
+            _rend.material.SetFloat("_Threshold", fadeValue);
+        }
 
         if (GameManager.instance != null)
         {
-            GameManager.instance.UpdateFadeValue(Mathf.Abs(fadeValue));
+            GameManager.instance.UpdateFadeValue(fadeValue);
         }
         
     }
