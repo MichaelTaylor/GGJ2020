@@ -94,13 +94,16 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckHealth()
     {
+        _health = Mathf.Lerp(_health, _targetHealthValue, _healthLerpSpeed * Time.deltaTime);
         if (!_isDead)
         {
-            _health = Mathf.Lerp(_health, _targetHealthValue, _healthLerpSpeed * Time.deltaTime);
+            if (_targetHealthValue <= 0)
+            {
+                IsDeadLogic();
+            }
         }
         else
         {
-            _health = 0f;
             _targetHealthValue = 0;
         }
         
@@ -116,22 +119,25 @@ public class PlayerScript : MonoBehaviour
             }
             else
             {
-                _health = _maxHealth;
+                _targetHealthValue = _maxHealth;
             }
         }
-
-        float fadeValue = Mathf.Abs(((_health / _maxHealth)) - 1f);
         
         if (_rend != null)
         {
-            _rend.material.SetFloat("_Threshold", fadeValue);
+            _rend.material.SetFloat("_Threshold", FadeValue());
         }
 
         if (GameManager.instance != null)
         {
-            GameManager.instance.UpdateFadeValue(fadeValue);
+            GameManager.instance.UpdateFadeValue(FadeValue());
         }
         
+    }
+
+    private float FadeValue()
+    {
+        return Mathf.Abs(((_health / _maxHealth)) - 1f);
     }
 
     private void IsDeadLogic()
