@@ -8,7 +8,8 @@ public class ComponentFader : MonoBehaviour
     private enum ComponentType
     {
         SPRITE_RENDERER,
-        IMAGE
+        IMAGE,
+        TEXT
     };
 
     [SerializeField]
@@ -19,6 +20,7 @@ public class ComponentFader : MonoBehaviour
     //Components
     private SpriteRenderer _rend;
     private Image _image;
+    private Text _text;
 
     private void Start()
     {
@@ -40,6 +42,11 @@ public class ComponentFader : MonoBehaviour
                     _image = GetComponent<Image>();
                     break;
                 }
+            case ComponentType.TEXT:
+                {
+                    _text = GetComponent<Text>();
+                    break;
+                }
         }
     }
 
@@ -59,6 +66,13 @@ public class ComponentFader : MonoBehaviour
                     Color c = _image.color;
                     c.a = GameManager.instance.GetFadeValue();
                     _image.color = c;
+                    break;
+                }
+            case ComponentType.TEXT:
+                {
+                    Color c = _text.color;
+                    c.a = GameManager.instance.GetFadeValue();
+                    _text.color = c;
                     break;
                 }
         }

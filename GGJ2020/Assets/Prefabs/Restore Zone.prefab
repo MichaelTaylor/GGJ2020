@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2524688908968728414}
   - component: {fileID: 2524688908968728413}
   - component: {fileID: 2524688908968728412}
+  - component: {fileID: -275738166661149886}
+  - component: {fileID: 2928419721684877106}
   m_Layer: 0
   m_Name: Restore Zone
   m_TagString: RestoreZone
@@ -105,3 +107,38 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-275738166661149886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524688908968728411}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b34a88fcbcb8187449ad83d56812d1a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _restoreTimerLimit: 1
+  _fadeRate: 0.34
+  _collider: {fileID: 2524688908968728412}
+  _currentMaterial: {fileID: 2100000, guid: 8073ae7bc1f1f3347bce13f9d4fa0072, type: 2}
+--- !u!95 &2928419721684877106
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524688908968728411}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -8,6 +8,12 @@ public class PlayerScript : MonoBehaviour
     [Range(0f, 10f)]
     [SerializeField]
     private float _speed;
+    private bool _isInvincible;
+
+    [Range(0f, 2f)]
+    [SerializeField]
+    private float _invincibilityLength;
+
     private bool _isDead;
 
     [Header("Health Variables")]
@@ -15,6 +21,11 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private float _health;
     private float _maxHealth;
+    private float _initialMaxHealth;
+
+    [Range(1f, 10f)]
+    [SerializeField]
+    private float _maxHealthSubtractValue;
 
     [Range(1f, 20f)]
     [SerializeField]
@@ -36,6 +47,7 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         _maxHealth = _health;
+        _initialMaxHealth = _maxHealth;
         _targetHealthValue = _maxHealth;
 
         _spriteRend = GetComponent<SpriteRenderer>();
@@ -52,9 +64,13 @@ public class PlayerScript : MonoBehaviour
             Movement();
         }
         
-        //Jump();
         CheckHealth();
         RestoreHealth();
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.UpdateMaxHealthBorder(_maxHealth / _initialMaxHealth);
+        }
     }
 
     private void Movement()
@@ -81,14 +97,6 @@ public class PlayerScript : MonoBehaviour
         else
         {
             _anim.SetBool("IsMoving", false);
-        }
-    }
-
-    private void Jump()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            _rb2D.AddForce(Vector3.up * 5f, ForceMode2D.Impulse);
         }
     }
 
@@ -137,7 +145,44 @@ public class PlayerScript : MonoBehaviour
 
     private float FadeValue()
     {
-        return Mathf.Abs(((_health / _maxHealth)) - 1f);
+        return Mathf.Abs(((_health / _initialMaxHealth)) - 1f);
+    }
+
+    private void DamageLogic()
+    {
+        if (!_isInvincible)
+        {
+            if (_health > 0)
+            {
+                _targetHealthValue -= 10f;
+                SubstractMaxHealth();
+
+                if (_targetHealthValue < 0)
+                {
+                    IsDeadLogic();
+                }
+                else
+                {
+                    GameManager.instance.SetQuoteText();
+                    _isInvincible = true;
+                    StartCoroutine(ResetInvincibility());
+                }
+            }
+        }
+    }
+
+    private IEnumerator ResetInvincibility()
+    {
+        yield return new WaitForSeconds(_invincibilityLength);
+        _isInvincible = false;
+    }
+
+    private void SubstractMaxHealth()
+    {
+        if (_maxHealth > 0f)
+        {
+            _maxHealth -= _maxHealthSubtractValue;
+        }
     }
 
     private void IsDeadLogic()
@@ -145,6 +190,7 @@ public class PlayerScript : MonoBehaviour
         //game over
         _isDead = true;
         _anim.SetBool("IsMoving", false);
+        GameManager.instance.ActivateGameOverFade();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -159,15 +205,7 @@ public class PlayerScript : MonoBehaviour
 
         if (collision.CompareTag("DamageZone"))
         {
-            if (_health > 0)
-            {
-                _targetHealthValue -= 10f;
-
-                if (_targetHealthValue < 0)
-                {
-                    IsDeadLogic();
-                }
-            }
+            DamageLogic();
         }
     }
 

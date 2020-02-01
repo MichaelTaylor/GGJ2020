@@ -58,4 +58,28 @@ public class GameManager : MonoBehaviour
     {
         return _fadeValue;
     }
+
+    public void UpdateMaxHealthBorder(float maxHealthMultiplyer)
+    {
+        if (_userInteraceManager != null)
+        {
+            _userInteraceManager.UpdateBorderValue(maxHealthMultiplyer);
+        }
+    }
+
+    public void SetQuoteText()
+    {
+        if (_userInteraceManager != null)
+        {
+            _userInteraceManager.SetQuoteText();
+        }
+    }
+
+    public void ActivateGameOverFade()
+    {
+        if (_userInteraceManager != null)
+        {
+            _userInteraceManager.FadeIn();
+        }
+    }
 }

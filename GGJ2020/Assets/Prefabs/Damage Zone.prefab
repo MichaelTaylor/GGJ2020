@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2524688908968728414}
   - component: {fileID: 2524688908968728413}
   - component: {fileID: 2524688908968728412}
+  - component: {fileID: 1669966137}
+  - component: {fileID: 8896753342691289662}
   m_Layer: 0
   m_Name: Damage Zone
   m_TagString: DamageZone
@@ -105,3 +107,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1669966137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524688908968728411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd049432de1e0ec458fd21d86bda2e11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sinDir: {x: 0, y: -1, z: 0}
+  _sinSpeed: 0.075
+--- !u!114 &8896753342691289662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524688908968728411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0df47e737c47c684d8ffbec34d96937c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotDir: {x: 0, y: 0, z: 10}
+  _rotSpeed: 5.26
