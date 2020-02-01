@@ -54,6 +54,8 @@ public class PlayerScript : MonoBehaviour
         _rb2D = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _rend = GetComponent<Renderer>();
+
+        GameManager.instance.ReportPlayerObject(this);
     }
 
 
@@ -188,9 +190,12 @@ public class PlayerScript : MonoBehaviour
     private void IsDeadLogic()
     {
         //game over
-        _isDead = true;
-        _anim.SetBool("IsMoving", false);
-        GameManager.instance.ActivateGameOverFade();
+        if (!_isDead)
+        {
+            _isDead = true;
+            _anim.SetBool("IsMoving", false);
+            GameManager.instance.ActivateGameOverFade();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

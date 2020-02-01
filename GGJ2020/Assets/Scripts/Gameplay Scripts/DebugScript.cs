@@ -9,8 +9,12 @@ public class DebugScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(currentSceneName);
+            GameManager.instance.ActivateGameOverFade();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
         }
     }
 }

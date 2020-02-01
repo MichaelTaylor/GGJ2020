@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RestoreZone
   - DamageZone
+  - FinishTrigger
   layers:
   - Default
   - TransparentFX

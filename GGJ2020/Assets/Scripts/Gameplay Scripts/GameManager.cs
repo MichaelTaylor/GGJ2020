@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float _postProcessFadeRate;
 
+    private PlayerScript _player;
+    public PlayerScript player { get { return _player; } }
+
     private float _fadeValue;
+    private bool _isFading;
 
     [Header("Other Compoenents")]
     [SerializeField]
@@ -31,9 +36,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ReportPlayerObject(PlayerScript player)
+    {
+        _player = player;
+    }
+
     public void ReportComponentFader(ComponentFader fader)
     {
         _userInteraceManager.ReportComponentFader(fader);
+    }
+
+    private void ActivateFadeOut()
+    {
+        _userInteraceManager.FadeOut();
     }
 
     public void UpdateFadeValue(float fadeValue)
@@ -79,7 +94,22 @@ public class GameManager : MonoBehaviour
     {
         if (_userInteraceManager != null)
         {
-            _userInteraceManager.FadeIn();
+            if (!_isFading)
+            {
+                _userInteraceManager.FadeIn();
+                StartCoroutine(ResetScene());
+                _isFading = true;
+            }
         }
+    }
+
+    private IEnumerator ResetScene()
+    {
+        yield return new WaitForSeconds(3f);
+        
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
+        ActivateFadeOut();
+        _isFading = false;
     }
 }

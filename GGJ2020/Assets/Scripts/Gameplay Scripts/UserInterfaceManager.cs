@@ -29,6 +29,7 @@ public class UserInterfaceManager : MonoBehaviour
     [SerializeField]
     private float _quoteTimeLength;
     private float _quoteTimer;
+    private float _inSceneTimer;
 
     [Header("Fade Image Variables")]
     [SerializeField]
@@ -57,12 +58,14 @@ public class UserInterfaceManager : MonoBehaviour
         {
             _borderTransform.sizeDelta = new Vector2(_borderValue, _borderTransform.sizeDelta.y);
         }
+
+        _inSceneTimer += Time.deltaTime;
     }
 
     public void UpdateBorderValue(float multiplyer)
     {
         float value = _initialBorderValue * multiplyer;
-        _borderValue = Mathf.Lerp(_borderValue, value, 2f * Time.deltaTime);
+        _borderValue = Mathf.Lerp(_borderValue, value, 5f * Time.deltaTime);
     }
 
     public void FadeIn()
@@ -73,6 +76,11 @@ public class UserInterfaceManager : MonoBehaviour
     public void FadeOut()
     {
         _fadeAnim.SetTrigger("FadeOut");
+        if (!string.IsNullOrEmpty(_quoteText.text))
+        {
+            _quoteText.text = "";
+            _quoteTimer = 0f;
+        }
     }
 
     public void SetHealthBarValue(float value)
@@ -90,8 +98,22 @@ public class UserInterfaceManager : MonoBehaviour
             _quoteText.text = quote;
 
             _quotePool.quoteData.RemoveAt(quoteIndex);
-            _quoteTimer += Time.time;
-            StartCoroutine(ResetText());
+
+            //_quoteTimeLength = _quoteTimer;
+            if (_quoteTimer != 0f)
+            {
+                _quoteTimer += _quoteTimeLength;
+            }
+            else
+            {
+                _quoteTimer += _inSceneTimer + _quoteTimeLength;
+            }
+            
+
+            if (!string.IsNullOrEmpty(_quoteText.text))
+            {
+                StartCoroutine(ResetText());
+            }
         }
     }
 
@@ -99,9 +121,13 @@ public class UserInterfaceManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_quoteTimeLength);
 
-        if (Time.time >= _quoteTimer)
+        if (_inSceneTimer >= _quoteTimer)
         {
-            _quoteText.text = "";
+            if (!string.IsNullOrEmpty(_quoteText.text))
+            {
+                _quoteText.text = "";
+                _quoteTimer = 0f;
+            }
         }
     }
 

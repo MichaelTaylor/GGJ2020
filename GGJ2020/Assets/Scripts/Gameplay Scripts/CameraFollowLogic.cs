@@ -16,8 +16,23 @@ public class CameraFollowLogic : MonoBehaviour
     [SerializeField]
     private float _yPosAddition;
 
+    private void GetTarget()
+    {
+        if (GameManager.instance != null)
+        {
+            if (_target == null)
+            {
+                if (GameManager.instance.player != null)
+                {
+                    _target = GameManager.instance.player.transform;
+                }
+            }
+        }
+    }
+
     private void Update()
     {
+        GetTarget();
         LerpToTarget();
     }
 
