@@ -31,6 +31,9 @@ public class UserInterfaceManager : MonoBehaviour
     private float _quoteTimer;
     private float _inSceneTimer;
 
+    [SerializeField]
+    private TextController _textController;
+
     [Header("Fade Image Variables")]
     [SerializeField]
     private Image _fadeImage;
@@ -95,39 +98,9 @@ public class UserInterfaceManager : MonoBehaviour
             int quoteIndex = Random.Range(0, _quotePool.quoteData.Count);
             string quote = _quotePool.quoteData[quoteIndex].quote;
 
-            _quoteText.text = quote;
+            _textController.StartSentence(quote);
 
             _quotePool.quoteData.RemoveAt(quoteIndex);
-
-            //_quoteTimeLength = _quoteTimer;
-            if (_quoteTimer != 0f)
-            {
-                _quoteTimer += _quoteTimeLength;
-            }
-            else
-            {
-                _quoteTimer += _inSceneTimer + _quoteTimeLength;
-            }
-            
-
-            if (!string.IsNullOrEmpty(_quoteText.text))
-            {
-                StartCoroutine(ResetText());
-            }
-        }
-    }
-
-    private IEnumerator ResetText()
-    {
-        yield return new WaitForSeconds(_quoteTimeLength);
-
-        if (_inSceneTimer >= _quoteTimer)
-        {
-            if (!string.IsNullOrEmpty(_quoteText.text))
-            {
-                _quoteText.text = "";
-                _quoteTimer = 0f;
-            }
         }
     }
 

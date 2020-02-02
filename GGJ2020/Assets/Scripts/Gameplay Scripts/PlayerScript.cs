@@ -38,11 +38,21 @@ public class PlayerScript : MonoBehaviour
     private bool _restoringHealth;
     private float _targetHealthValue;
 
+    [Header("Audio SFX Variable")]
+    [SerializeField]
+    private AudioClip _damagedSFX;
+
+    [SerializeField]
+    private AudioClip[] _footstepsSFX;
+
+    private AudioClip _lastPlayedFootstep;
+
     //Components
     private SpriteRenderer _spriteRend;
     private Rigidbody2D _rb2D;
     private Animator _anim;
     private Renderer _rend;
+    private AudioSource _audioSource;
 
     private void Start()
     {
@@ -54,6 +64,7 @@ public class PlayerScript : MonoBehaviour
         _rb2D = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
         _rend = GetComponent<Renderer>();
+        _audioSource = GetComponent<AudioSource>();
 
         GameManager.instance.ReportPlayerObject(this);
     }
@@ -150,6 +161,20 @@ public class PlayerScript : MonoBehaviour
         return Mathf.Abs(((_health / _initialMaxHealth)) - 1f);
     }
 
+    public void PlayFootstepsSFX()
+    {
+        int index = Random.Range(0, _footstepsSFX.Length - 1);
+        AudioClip footstep = _footstepsSFX[index];
+
+        while(footstep == _lastPlayedFootstep)
+        {
+            index = Random.Range(0, _footstepsSFX.Length - 1);
+            footstep = _footstepsSFX[index];
+        }
+        _audioSource.clip = footstep;
+        _audioSource.Play();
+    }
+
     private void DamageLogic()
     {
         if (!_isInvincible)
@@ -158,7 +183,7 @@ public class PlayerScript : MonoBehaviour
             {
                 _targetHealthValue -= 10f;
                 SubstractMaxHealth();
-
+                
                 if (_targetHealthValue < 0)
                 {
                     IsDeadLogic();
@@ -166,6 +191,7 @@ public class PlayerScript : MonoBehaviour
                 else
                 {
                     GameManager.instance.SetQuoteText();
+                    AudioManager.instance.PlaySFX(_damagedSFX);
                     _isInvincible = true;
                     StartCoroutine(ResetInvincibility());
                 }

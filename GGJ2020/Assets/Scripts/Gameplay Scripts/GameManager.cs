@@ -67,11 +67,18 @@ public class GameManager : MonoBehaviour
         }
 
         _fadeValue = Mathf.Abs(fadeValue - 1);
+        AudioManager.instance.SetMasterVolume(GetVolumeValue());
     }
 
     public float GetFadeValue()
     {
         return _fadeValue;
+    }
+
+    public float GetVolumeValue()
+    {
+        float value = 40f * (_fadeValue - 1);
+        return value;
     }
 
     public void UpdateMaxHealthBorder(float maxHealthMultiplyer)
