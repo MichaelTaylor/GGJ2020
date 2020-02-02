@@ -1,6 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Custom/PencilPostProcessing"
+﻿Shader "Custom/PencilPostProcessing"
 {
 	// Original code : https://www.shadertoy.com/view/ldXfRj
 	Properties

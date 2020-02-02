@@ -11,7 +11,6 @@ public class FinishLogic : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            //GameManager.instance.ActivateGameOverFade();
             StartCoroutine(GameManager.instance.ActivateFinishTriggerFade(_finalQuote.quote));
         }
     }

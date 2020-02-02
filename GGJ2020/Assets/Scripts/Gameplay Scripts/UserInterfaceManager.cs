@@ -28,8 +28,6 @@ public class UserInterfaceManager : MonoBehaviour
     [Range(1f, 5f)]
     [SerializeField]
     private float _quoteTimeLength;
-    private float _quoteTimer;
-    private float _inSceneTimer;
 
     [SerializeField]
     private TextController _textController;
@@ -61,8 +59,6 @@ public class UserInterfaceManager : MonoBehaviour
         {
             _borderTransform.sizeDelta = new Vector2(_borderValue, _borderTransform.sizeDelta.y);
         }
-
-        _inSceneTimer += Time.deltaTime;
     }
 
     public void UpdateBorderValue(float multiplyer)
@@ -82,7 +78,6 @@ public class UserInterfaceManager : MonoBehaviour
         if (!string.IsNullOrEmpty(_quoteText.text))
         {
             _quoteText.text = "";
-            _quoteTimer = 0f;
         }
     }
 

@@ -12,7 +12,7 @@ public class DebugScript : MonoBehaviour
             GameManager.instance.ActivateGameOverFade();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
