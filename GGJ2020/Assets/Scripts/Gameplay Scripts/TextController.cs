@@ -10,6 +10,8 @@ public class TextController : MonoBehaviour
     private float _scrollSpeed;
 
     private string _currentSentence;
+    private bool _isDisplaying;
+    public bool isDispalying { get { return _isDisplaying; } }
 
     private Text _textComponent;
 
@@ -20,8 +22,19 @@ public class TextController : MonoBehaviour
 
     public void StartSentence(string sentence)
     {
-        _currentSentence = sentence;
-        StartCoroutine(TypeSentence(_currentSentence));
+        if (!_isDisplaying)
+        {
+            _currentSentence = sentence;
+            StartCoroutine(TypeSentence(_currentSentence));
+            _isDisplaying = true;
+        }
+    }
+
+    public void StartFinalSentence(string sentence)
+    {
+        StopAllCoroutines();
+        StartCoroutine(ResetText(0f));
+        StartCoroutine(TypeSentence(sentence));
     }
 
     private IEnumerator TypeSentence(string sentence)
@@ -31,16 +44,18 @@ public class TextController : MonoBehaviour
         foreach(char letter in sentence.ToCharArray())
         {
             _textComponent.text += letter;
+            GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(_scrollSpeed);
         }
 
-        StartCoroutine(ResetText());
+        StartCoroutine(ResetText(3f));
     }
 
-    private IEnumerator ResetText()
+    private IEnumerator ResetText(float seconds)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(seconds);
 
         _textComponent.text = "";
+        _isDisplaying = false;
     }
 }

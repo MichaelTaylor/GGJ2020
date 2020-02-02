@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class FinishLogic : MonoBehaviour
 {
+    [SerializeField]
+    private QuoteData _finalQuote;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            GameManager.instance.ActivateGameOverFade();
+            //GameManager.instance.ActivateGameOverFade();
+            StartCoroutine(GameManager.instance.ActivateFinishTriggerFade(_finalQuote.quote));
         }
     }
 

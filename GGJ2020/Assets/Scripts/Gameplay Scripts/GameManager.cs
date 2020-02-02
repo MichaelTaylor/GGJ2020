@@ -97,6 +97,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SetFinalQuote(string quote)
+    {
+        if (_userInteraceManager != null)
+        {
+            _userInteraceManager.SetFinalQuote(quote);
+        }
+    }
+
     public void ActivateGameOverFade()
     {
         if (_userInteraceManager != null)
@@ -106,6 +114,21 @@ public class GameManager : MonoBehaviour
                 _userInteraceManager.FadeIn();
                 StartCoroutine(ResetScene());
                 _isFading = true;
+            }
+        }
+    }
+
+    public IEnumerator ActivateFinishTriggerFade(string quote)
+    {
+        if (_userInteraceManager != null)
+        {
+            if (!_isFading)
+            {
+                _userInteraceManager.FadeIn();
+                _isFading = true;
+                SetFinalQuote(quote);
+                yield return new WaitForSeconds(3f);
+                StartCoroutine(ResetScene());
             }
         }
     }

@@ -95,13 +95,21 @@ public class UserInterfaceManager : MonoBehaviour
     {
         if (_quotePool.quoteData.Count > 0)
         {
-            int quoteIndex = Random.Range(0, _quotePool.quoteData.Count);
-            string quote = _quotePool.quoteData[quoteIndex].quote;
+            if (!_textController.isDispalying)
+            {
+                int quoteIndex = Random.Range(0, _quotePool.quoteData.Count);
+                string quote = _quotePool.quoteData[quoteIndex].quote;
 
-            _textController.StartSentence(quote);
+                _textController.StartSentence(quote);
 
-            _quotePool.quoteData.RemoveAt(quoteIndex);
+                _quotePool.quoteData.RemoveAt(quoteIndex);
+            }
         }
+    }
+
+    public void SetFinalQuote(string quote)
+    {
+        _textController.StartFinalSentence(quote);
     }
 
     public void ReportComponentFader(ComponentFader fader)
