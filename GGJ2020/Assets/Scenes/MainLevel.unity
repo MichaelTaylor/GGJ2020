@@ -3026,13 +3026,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 147358406, guid: 617009f2e29cb84428120da560fe4b45, type: 3}
-      propertyPath: m_Color.a
-      value: 0
+    - target: {fileID: 6615517856763801741, guid: 617009f2e29cb84428120da560fe4b45,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 14.600098
       objectReference: {fileID: 0}
-    - target: {fileID: 874696631, guid: 617009f2e29cb84428120da560fe4b45, type: 3}
-      propertyPath: m_Text
-      value: 
+    - target: {fileID: 6615517856763801741, guid: 617009f2e29cb84428120da560fe4b45,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -18.900024
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 617009f2e29cb84428120da560fe4b45, type: 3}
